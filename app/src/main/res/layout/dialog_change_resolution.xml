@@ -61,4 +61,31 @@
             android:clickable="false"/>
 
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/change_audio_source_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:background="?attr/selectableItemBackground"
+        android:padding="@dimen/activity_margin">
+
+        <com.simplemobiletools.commons.views.MyTextView
+            android:id="@+id/change_audio_source_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/change_audio_source"
+            android:layout_toLeftOf="@+id/change_audio_source"
+            android:text="@string/audio_source_label"/>
+
+        <com.simplemobiletools.commons.views.MyTextView
+            android:id="@+id/change_audio_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:clickable="false"/>
+
+    </RelativeLayout>
 </LinearLayout>

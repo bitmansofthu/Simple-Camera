@@ -38,6 +38,11 @@
     <string name="photo_compression_quality">Photo compression quality</string>
     <string name="shutter">Shutter</string>
 
+    <string name="audio_source_label">Audio Source</string>
+    <string name="audio_source_default">Default</string>
+    <string name="audio_source_unprocessed">Unprocessed</string>
+    <string name="audio_source_mic">Mic</string>
+
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- Short description has to have less than 80 chars -->
     <string name="app_short_description">A camera with flash, zoom and no ads.</string>

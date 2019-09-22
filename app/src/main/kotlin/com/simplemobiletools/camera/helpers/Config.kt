@@ -1,6 +1,7 @@
 package com.simplemobiletools.camera.helpers
 
 import android.content.Context
+import android.media.MediaRecorder
 import android.os.Environment
 import com.simplemobiletools.commons.helpers.BaseConfig
 import java.io.File
@@ -84,4 +85,8 @@ class Config(context: Context) : BaseConfig(context) {
     var photoQuality: Int
         get() = prefs.getInt(PHOTO_QUALITY, 80)
         set(photoQuality) = prefs.edit().putInt(PHOTO_QUALITY, photoQuality).apply()
+
+    var audioSource: Int
+        get() = prefs.getInt(AUDIO_SOURCE, MediaRecorder.AudioSource.DEFAULT)
+        set(audioSource) = prefs.edit().putInt(AUDIO_SOURCE, audioSource).apply()
 }

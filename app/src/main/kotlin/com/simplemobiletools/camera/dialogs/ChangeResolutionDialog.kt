@@ -1,5 +1,6 @@
 package com.simplemobiletools.camera.dialogs
 
+import android.media.MediaRecorder
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -21,6 +22,7 @@ class ChangeResolutionDialog(val activity: SimpleActivity, val isFrontCamera: Bo
         val view = LayoutInflater.from(activity).inflate(R.layout.dialog_change_resolution, null).apply {
             setupPhotoResolutionPicker(this)
             setupVideoResolutionPicker(this)
+            setupAudioSourcePicker(this)
         }
 
         dialog = AlertDialog.Builder(activity)
@@ -72,6 +74,35 @@ class ChangeResolutionDialog(val activity: SimpleActivity, val isFrontCamera: Bo
             }
         }
         view.change_resolution_video.text = items.getOrNull(selectionIndex)?.title
+    }
+
+    private fun setupAudioSourcePicker(view: View) {
+        val items = ArrayList<RadioItem>(3)
+        items.add(RadioItem(0, activity.getString(R.string.audio_source_default)))
+        items.add(RadioItem(1, activity.getString(R.string.audio_source_mic)))
+        items.add(RadioItem(2, activity.getString(R.string.audio_source_unprocessed)))
+        var selectionIndex = when(config.audioSource) {
+            MediaRecorder.AudioSource.DEFAULT -> 0
+            MediaRecorder.AudioSource.MIC -> 1
+            MediaRecorder.AudioSource.UNPROCESSED -> 2
+            else -> 0
+        }
+
+        view.change_audio_source_holder.setOnClickListener {
+            RadioGroupDialog(activity, items, selectionIndex) {
+                selectionIndex = it as Int
+                view.change_audio_source.text = items[selectionIndex].title
+
+                when (selectionIndex) {
+                    0 -> config.audioSource = MediaRecorder.AudioSource.DEFAULT
+                    1 -> config.audioSource = MediaRecorder.AudioSource.MIC
+                    2 -> config.audioSource = MediaRecorder.AudioSource.UNPROCESSED
+                }
+
+                dialog.dismiss()
+            }
+        }
+        view.change_audio_source.text = items.getOrNull(selectionIndex)?.title
     }
 
     private fun getFormattedResolutions(resolutions: List<MySize>): ArrayList<RadioItem> {

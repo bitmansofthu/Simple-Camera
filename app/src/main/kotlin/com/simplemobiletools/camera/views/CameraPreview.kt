@@ -775,21 +775,23 @@ class CameraPreview : ViewGroup, TextureView.SurfaceTextureListener, MyPreview {
             val fileDescriptor = context.contentResolver.openFileDescriptor(uri, "w").fileDescriptor
 
             val rotation = mActivity.windowManager.defaultDisplay.rotation
-            mMediaRecorder!!.apply {
-                setAudioSource(MediaRecorder.AudioSource.MIC)
-                setVideoSource(MediaRecorder.VideoSource.SURFACE)
-                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                setOutputFile(fileDescriptor)
-                setVideoEncodingBitRate(10000000)
-                setVideoFrameRate(30)
-                setVideoSize(videoSize.width, videoSize.height)
-                setVideoEncoder(MediaRecorder.VideoEncoder.H264)
-                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-                when (mSensorOrientation) {
-                    90 -> setOrientationHint(DEFAULT_ORIENTATIONS.get(rotation))
-                    270 -> setOrientationHint(INVERSE_ORIENTATIONS.get(rotation))
+            mMediaRecorder?.let { recorder ->
+                recorder.apply {
+                    setAudioSource(mActivity.config.audioSource)
+                    setVideoSource(MediaRecorder.VideoSource.SURFACE)
+                    setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                    setOutputFile(fileDescriptor)
+                    setVideoEncodingBitRate(10000000)
+                    setVideoFrameRate(30)
+                    setVideoSize(videoSize.width, videoSize.height)
+                    setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+                    setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                    when (mSensorOrientation) {
+                        90 -> setOrientationHint(DEFAULT_ORIENTATIONS.get(rotation))
+                        270 -> setOrientationHint(INVERSE_ORIENTATIONS.get(rotation))
+                    }
+                    prepare()
                 }
-                prepare()
             }
         } catch (e: Exception) {
             mActivity.showErrorToast(e)
