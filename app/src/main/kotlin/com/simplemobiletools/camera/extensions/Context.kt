@@ -2,6 +2,8 @@ package com.simplemobiletools.camera.extensions
 
 import android.content.Context
 import android.graphics.Point
+import android.media.AudioManager
+import android.os.Build
 import android.view.WindowManager
 import com.simplemobiletools.camera.helpers.Config
 import java.io.File
@@ -44,3 +46,18 @@ val Context.realScreenSize: Point
     }
 
 val Context.navBarHeight: Int get() = realScreenSize.y - usableScreenSize.y
+
+val Context.isUnprocessedAudioSupported : Boolean
+    get() {
+        (getSystemService(Context.AUDIO_SERVICE) as? AudioManager)?.let { am ->
+            if (Build.VERSION.SDK_INT >= 24) {
+                am.getProperty(AudioManager.PROPERTY_SUPPORT_AUDIO_SOURCE_UNPROCESSED)?.let {
+                    if (it == true.toString()) {
+                        return true
+                    }
+                }
+            }
+        }
+
+        return false
+    }

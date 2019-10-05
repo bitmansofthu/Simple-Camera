@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.camera.R
 import com.simplemobiletools.camera.activities.SimpleActivity
 import com.simplemobiletools.camera.extensions.config
+import com.simplemobiletools.camera.extensions.isUnprocessedAudioSupported
 import com.simplemobiletools.camera.models.MySize
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.setupDialogStuff
@@ -78,14 +79,20 @@ class ChangeResolutionDialog(val activity: SimpleActivity, val isFrontCamera: Bo
 
     private fun setupAudioSourcePicker(view: View) {
         val items = ArrayList<RadioItem>(3)
-        items.add(RadioItem(0, activity.getString(R.string.audio_source_default)))
-        items.add(RadioItem(1, activity.getString(R.string.audio_source_mic)))
-        items.add(RadioItem(2, activity.getString(R.string.audio_source_unprocessed)))
+
         var selectionIndex = when(config.audioSource) {
             MediaRecorder.AudioSource.DEFAULT -> 0
             MediaRecorder.AudioSource.MIC -> 1
             MediaRecorder.AudioSource.UNPROCESSED -> 2
             else -> 0
+        }
+
+        items.add(RadioItem(0, activity.getString(R.string.audio_source_default)))
+        items.add(RadioItem(1, activity.getString(R.string.audio_source_mic)))
+        if (view.context.isUnprocessedAudioSupported) {
+            items.add(RadioItem(2, activity.getString(R.string.audio_source_unprocessed)))
+        } else if (selectionIndex == 2) {
+            selectionIndex = 0
         }
 
         view.change_audio_source_holder.setOnClickListener {
